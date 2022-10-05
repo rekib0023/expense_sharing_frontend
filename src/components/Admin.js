@@ -1,11 +1,12 @@
+import SidebarLayout from "../pages/SidebarLayout";
 import User from "./User";
 
 const Admin = () => {
   return (
-    <section>
+    <SidebarLayout>
       <h1>Admin</h1>
       <User />
-    </section>
+    </SidebarLayout>
   );
 };
 

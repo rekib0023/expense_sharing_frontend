@@ -21,7 +21,7 @@ export default function Signup() {
 
   const navigate = useNavigate();
   const location = useLocation();
-  const from = location?.state?.from?.pathname || "/admin";
+  const from = location?.state?.from?.pathname || "/";
 
   const errRef = useRef();
 

@@ -1,6 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 import Layout from "./pages/Layout";
-import Home from "./components/Home";
+import Home from "./pages/Home";
 import RequireAuth from "./components/RequireAuth";
 import PersistLogin from "./components/PersistLogin";
 import Admin from "./components/Admin";
@@ -21,8 +21,6 @@ const App = () => {
         <Route element={<PersistLogin />}>
           <Route element={<RequireAuth />}>
             <Route path="/" element={<Home />} />
-          </Route>
-          <Route element={<RequireAuth />}>
             <Route path="/admin" element={<Admin />} />
           </Route>
         </Route>
