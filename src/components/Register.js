@@ -8,6 +8,8 @@ import { useEffect, useRef, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import axios from "../api/axios";
 import useAuth from "../hooks/useAuth";
+import useInput from "../hooks/useInput";
+import useToggle from "../hooks/useToggle";
 
 const EMAIL_REGEX = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
@@ -19,12 +21,15 @@ const Register = () => {
 
   const navigate = useNavigate();
   const location = useLocation();
-  const from = location?.state?.from?.pathname || "/";
+  const from = location?.state?.from?.pathname || "/admin";
 
   const userRef = useRef();
   const errRef = useRef();
 
-  const [firstName, setFirstName] = useState("");
+  const [firstName, resetFirstName, firstNameAttribs] = useInput(
+    "firstName",
+    ""
+  ); //useState("");
   const [fNameFocus, setFNameFocus] = useState(false);
 
   const [lastName, setLastName] = useState("");
@@ -43,6 +48,8 @@ const Register = () => {
   const [confirmPwdFocus, setConfirmPwdFocus] = useState(false);
 
   const [errMsg, setErrMsg] = useState("");
+
+  const [check, toggleCheck] = useToggle("persist", false);
 
   useEffect(() => {
     userRef.current.focus();
@@ -86,7 +93,7 @@ const Register = () => {
       );
       const accessToken = response?.data?.access_token;
       setAuth({ firstName, lastName, email, pwd, accessToken });
-      setFirstName("");
+      resetFirstName();
       setLastName("");
       setEmail("");
       setPwd("");
@@ -122,7 +129,8 @@ const Register = () => {
             id="firstname"
             ref={userRef}
             autoComplete="off"
-            onChange={(e) => setFirstName(e.target.value)}
+            {...firstNameAttribs}
+            // onChange={(e) => setFirstName(e.target.value)}
             required
             onFocus={() => setFNameFocus(true)}
             onBlur={() => setFNameFocus(false)}
@@ -246,6 +254,15 @@ const Register = () => {
           >
             Sign Up
           </button>
+          <div className="persistCheck">
+            <input
+              type="checkbox"
+              id="persist"
+              onChange={toggleCheck}
+              checked={check}
+            />
+            <label htmlFor="persist">Remember me.</label>
+          </div>
         </form>
         <p>
           Already registered?
