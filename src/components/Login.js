@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import axios from "../api/axios";
 import useAuth from "../hooks/useAuth";
 import useToggle from "../hooks/useToggle";
-
+import useInput from "../hooks/useInput";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 
 const LOGIN_URL = "/auth/login";
@@ -17,7 +17,7 @@ const Login = () => {
   const emailRef = useRef();
   const errRef = useRef();
 
-  const [email, setEmail] = useState("");
+  const [email, resetEmail, emailAttribs] = useInput("email", "");
   const [pwd, setPwd] = useState("");
   const [errMsg, setErrMsg] = useState("");
 
@@ -47,8 +47,8 @@ const Login = () => {
         }
       );
       const accessToken = response?.data?.access_token;
-      setAuth({ email, pwd, accessToken });
-      setEmail("");
+      setAuth({ email, accessToken });
+      resetEmail();
       setPwd("");
       navigate(from, { replace: true });
     } catch (error) {
@@ -63,14 +63,6 @@ const Login = () => {
       errRef.current.focus();
     }
   };
-
-  // const togglePersist = () => {
-  //   setPersist((prev) => !prev);
-  // };
-
-  // useEffect(() => {
-  //   localStorage.setItem("persist", persist);
-  // }, [persist]);
 
   return (
     <section>
@@ -89,8 +81,7 @@ const Login = () => {
           id="email"
           ref={emailRef}
           autoComplete="off"
-          onChange={(e) => setEmail(e.target.value)}
-          value={email}
+          {...emailAttribs}
           required
         />
         <label htmlFor="password">Pasword:</label>

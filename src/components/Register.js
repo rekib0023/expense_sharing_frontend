@@ -29,13 +29,14 @@ const Register = () => {
   const [firstName, resetFirstName, firstNameAttribs] = useInput(
     "firstName",
     ""
-  ); //useState("");
+  );
   const [fNameFocus, setFNameFocus] = useState(false);
 
-  const [lastName, setLastName] = useState("");
+  const [lastName, resetLastName, lastNameAttribs] = useInput("lastName", "");
   const [lNameFocus, setLNameFocus] = useState(false);
 
-  const [email, setEmail] = useState("");
+  const [email, resetEmail, emailAttribs] = useInput("email", "");
+
   const [validEmail, setValidEmail] = useState(false);
   const [emailFocus, setEmailFocus] = useState(false);
 
@@ -94,8 +95,8 @@ const Register = () => {
       const accessToken = response?.data?.access_token;
       setAuth({ firstName, lastName, email, pwd, accessToken });
       resetFirstName();
-      setLastName("");
-      setEmail("");
+      resetLastName();
+      resetEmail();
       setPwd("");
       navigate(from, { replace: true });
     } catch (error) {
@@ -130,7 +131,6 @@ const Register = () => {
             ref={userRef}
             autoComplete="off"
             {...firstNameAttribs}
-            // onChange={(e) => setFirstName(e.target.value)}
             required
             onFocus={() => setFNameFocus(true)}
             onBlur={() => setFNameFocus(false)}
@@ -140,7 +140,7 @@ const Register = () => {
             type="text"
             id="lastname"
             autoComplete="off"
-            onChange={(e) => setLastName(e.target.value)}
+            {...lastNameAttribs}
             required
             onFocus={() => setLNameFocus(true)}
             onBlur={() => setLNameFocus(false)}
@@ -160,7 +160,7 @@ const Register = () => {
             type="text"
             id="email"
             autoComplete="off"
-            onChange={(e) => setEmail(e.target.value)}
+            {...emailAttribs}
             required
             aria-invalid={validEmail ? "false" : "true"}
             aria-describedby="uidnote"
