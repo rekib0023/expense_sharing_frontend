@@ -18,7 +18,6 @@ const navigation = [
 
 function Sidebar() {
   const [navOpen, toggleNavOpen] = useToggle("navOpen", false);
-  console.log(navOpen);
   const navigate = useNavigate();
   const location = useLocation();
   const logout = useLogout();

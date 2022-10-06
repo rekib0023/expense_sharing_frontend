@@ -12,22 +12,42 @@ const Input = ({
   isRequired = false,
   placeholder,
   customClass,
+  inputType = null,
+  dropdownList,
 }) => {
   return (
     <div className="my-5">
       <label htmlFor={labelFor} className="sr-only">
         {labelText}
-      </label>
-      <input
-        onChange={handleChange}
-        value={value}
-        id={id}
-        name={name}
-        type={type}
-        required={isRequired}
-        className={fixedInputClass + customClass}
-        placeholder={placeholder}
-      />
+      </label>{" "}
+      {inputType === "dropdown" ? (
+        <select
+          onChange={handleChange}
+          defaultValue=""
+          value={value}
+          name={name}
+          id={id}
+          className="border border-gray-300 rounded-lg block w-full p-2.5"
+          
+        >
+          {dropdownList.map((e) => (
+            <option key={e.id} value={e.id}>
+              {e.name}
+            </option>
+          ))}
+        </select>
+      ) : (
+        <input
+          onChange={handleChange}
+          value={value}
+          id={id}
+          name={name}
+          type={type}
+          required={isRequired}
+          className={fixedInputClass + customClass}
+          placeholder={placeholder}
+        />
+      )}
     </div>
   );
 };

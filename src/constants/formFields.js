@@ -74,4 +74,60 @@ const signupFields = [
   },
 ];
 
-export { loginFields, signupFields };
+const expenseCategoryFields = [
+  {
+    labelText: "Category Name",
+    labelFor: "categoryname",
+    id: "categoryname",
+    name: "categoryname",
+    type: "text",
+    autoComplete: "categoryname",
+    isRequired: true,
+    placeholder: "Category Name",
+  },
+];
+
+const expenseFields = [
+  {
+    labelText: "Expense Name",
+    labelFor: "expensename",
+    id: "expensename",
+    name: "expensename",
+    type: "text",
+    autoComplete: "expensename",
+    isRequired: true,
+    placeholder: "Expense Name",
+  },
+  {
+    labelText: "Category",
+    labelFor: "category",
+    id: "category",
+    name: "category",
+    type: "test",
+    autoComplete: "category",
+    isRequired: true,
+    placeholder: "Category",
+  },
+  {
+    labelText: "Amount",
+    labelFor: "amount",
+    id: "amount",
+    name: "amount",
+    type: "number",
+    autoComplete: "amount",
+    isRequired: true,
+    placeholder: "Amount",
+  },
+  {
+    labelText: "Payment Type",
+    labelFor: "type",
+    id: "type",
+    name: "type",
+    type: "text",
+    autoComplete: "type",
+    isRequired: true,
+    placeholder: "Payment Type",
+  },
+];
+
+export { loginFields, signupFields, expenseCategoryFields, expenseFields };

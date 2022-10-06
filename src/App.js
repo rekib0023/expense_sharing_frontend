@@ -8,6 +8,7 @@ import LoginPage from "./pages/Login";
 import Missing from "./pages/Missing";
 import SignupPage from "./pages/Signup";
 import Unauthorized from "./pages/Unauthorized";
+import Expenses from "./pages/Expenses";
 
 const App = () => {
   return (
@@ -22,6 +23,7 @@ const App = () => {
           <Route element={<RequireAuth />}>
             <Route path="/" element={<Home />} />
             <Route path="/admin" element={<Admin />} />
+            <Route path="/expenses" element={<Expenses />} />
           </Route>
         </Route>
 
