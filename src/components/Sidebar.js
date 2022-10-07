@@ -42,10 +42,11 @@ function Sidebar() {
         <div className="text-white pl-3 text-2xl">
           <i class="fi fi-rr-file-invoice-dollar"></i>
         </div>
-        <div className={`text-white text-2xl font-semibold duration-300`}>
-          {navOpen && "Expense Tracker"}
+        <div className={`text-white  ${navOpen && "text-2xl "} font-semibold duration-100`}>
+          {navOpen && "Expense"}
         </div>
       </div>
+      <br />
       <div className="flex flex-col space-y-3">
         {navigation.map((item) => (
           <NavLink
