@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import ModalForm from "../../../components/ModalForm";
 import { expenseCategoryFields } from "../../../constants/formFields";
 import useAxiosPrivate from "../../../hooks/useAxiosPrivate";
+import { toast } from "react-toastify";
 
 const ecfields = expenseCategoryFields;
 let ecfieldsState = {};
@@ -33,9 +34,11 @@ const CreateCategory = () => {
           withCredentials: true,
         }
       );
-      console.log(response);
+      toast.success("Category created successfully!");
     } catch (error) {
-      console.log(error);
+      error.response.data.status === 422
+        ? toast.error(error.response.data.statusText)
+        : toast.error(error.response.data.detail);
     }
   };
 
@@ -46,15 +49,15 @@ const CreateCategory = () => {
   return (
     <>
       <button
-        className="bg-blue-900 text-white hover:bg-blue-700 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+        className="border-2 border-blue-900 text-blue-900 hover:text-white hover:bg-blue-900 font-bold uppercase text-sm px-4 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
         type="button"
         onClick={() => setShowCategoryModal(true)}
       >
-        Open regular modal
+        Add New
       </button>
       {showCategoryModal ? (
         <ModalForm
-          title="Create Expense Category"
+          title="Create Category"
           onClick={() => setShowCategoryModal(false)}
           fields={ecfields}
           handleSubmit={handleExpenseCategorySubmit}

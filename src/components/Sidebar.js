@@ -6,7 +6,7 @@ const navigation = [
   { name: "Dashboard", href: "/", icon: <i className="fi fi-rr-home"></i> },
   {
     name: "Groups",
-    href: "/admin",
+    href: "/group",
     icon: <i class="fi fi-rr-users-alt"></i>,
   },
   {

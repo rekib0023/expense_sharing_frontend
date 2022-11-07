@@ -160,4 +160,37 @@ const expenseFields = [
   },
 ];
 
-export { loginFields, signupFields, expenseCategoryFields, expenseFields };
+const groupFields = [
+  {
+    labelText: "Name",
+    labelFor: "name",
+    id: "name",
+    name: "name",
+    type: "text",
+    autoComplete: "name",
+    isRequired: true,
+    placeholder: "Name",
+  },
+  {
+    labelText: "Description",
+    labelFor: "description",
+    id: "description",
+    name: "description",
+    type: "text",
+    autoComplete: "description",
+    isRequired: true,
+    placeholder: "Description",
+  },
+  {
+    labelText: "Users",
+    labelFor: "users",
+    id: "users",
+    name: "users",
+    type: "text",
+    autoComplete: "users",
+    isRequired: true,
+    placeholder: "Users",
+  },
+]
+
+export { loginFields, signupFields, expenseCategoryFields, expenseFields, groupFields };

@@ -1,5 +1,6 @@
 import { Switch } from "@headlessui/react";
 import BasicDateTimePicker from "./DateTimepicker";
+import MultiSelect from "./MultiSelect";
 
 const fixedInputClass =
   "rounded-md appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm";
@@ -20,16 +21,17 @@ const Input = ({
 }) => {
   return (
     <div className="my-5">
-      {inputType !== "toggle" && inputType !== "datetimepicker" && (
-        <label htmlFor={labelFor} className="text-sm">
-          {labelText}
-        </label>
-      )}
+      {inputType !== "toggle" &&
+        inputType !== "multi-select" &&
+        inputType !== "datetimepicker" && (
+          <label htmlFor={labelFor} className="text-sm">
+            {labelText}
+          </label>
+        )}
       {inputType === "dropdown" ? (
         <select
           onChange={handleChange}
-          defaultValue=""
-          value={value}
+          defaultValue={value}
           name={name}
           id={id}
           className="border border-gray-300 rounded-lg block w-full p-2.5"
@@ -40,6 +42,13 @@ const Input = ({
             </option>
           ))}
         </select>
+      ) : inputType === "multi-select" ? (
+        <MultiSelect
+          value={value}
+          handleChange={handleChange}
+          valueMaps={dropdownList}
+          labelText={labelText}
+        />
       ) : inputType === "toggle" ? (
         <Switch.Group>
           <div className="flex items-center">

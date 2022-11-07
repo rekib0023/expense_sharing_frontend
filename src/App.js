@@ -3,12 +3,12 @@ import Layout from "./pages/Layout";
 import Home from "./pages/Home";
 import RequireAuth from "./components/RequireAuth";
 import PersistLogin from "./components/PersistLogin";
-import Admin from "./components/Admin";
 import LoginPage from "./pages/Login";
 import Missing from "./pages/Missing";
 import SignupPage from "./pages/Signup";
 import Unauthorized from "./pages/Unauthorized";
 import Expenses from "./pages/Expenses";
+import Groups from "./pages/Groups";
 
 const App = () => {
   return (
@@ -22,7 +22,7 @@ const App = () => {
         <Route element={<PersistLogin />}>
           <Route element={<RequireAuth />}>
             <Route path="/" element={<Home />} />
-            <Route path="/admin" element={<Admin />} />
+            <Route path="/group" element={<Groups />} />
             <Route path="/expenses" element={<Expenses />} />
           </Route>
         </Route>
