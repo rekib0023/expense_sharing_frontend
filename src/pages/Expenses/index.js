@@ -1,19 +1,54 @@
 import { useEffect, useState } from "react";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import SidebarLayout from "../SidebarLayout";
-import CreateCategory from "./components/CreateCategory";
 import moment from "moment";
 import Expense from "./components/Expense";
 import { toast } from "react-toastify";
+import CategoryList from "./components/CategoryList";
 
 const Expenses = () => {
   const axiosPrivate = useAxiosPrivate();
   const [expenses, setExpenses] = useState([]);
   const [categories, setCategories] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [selectedPayment, setSelectedPayment] = useState("");
+
   const getExpenses = async (e) => {
     try {
       const response = await axiosPrivate.get("/expense/", {
+        headers: { "Content-Type": "application/json" },
+        withCredentials: true,
+      });
+      setExpenses(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const getExpensesByCategory = async (e) => {
+    try {
+      const response = await axiosPrivate.get("/expense/", {
+        params: {
+          type: "category",
+          value: selectedCategory,
+        },
+        headers: { "Content-Type": "application/json" },
+        withCredentials: true,
+      });
+      setExpenses(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const getExpensesByPayment = async (e) => {
+    try {
+      const response = await axiosPrivate.get("/expense/", {
+        params: {
+          type: "paid_by",
+          value: selectedPayment,
+        },
         headers: { "Content-Type": "application/json" },
         withCredentials: true,
       });
@@ -43,6 +78,8 @@ const Expenses = () => {
     let isMounted = true;
     const controller = new AbortController();
 
+    getExpenses();
+
     const getCategories = async () => {
       try {
         const response = await axiosPrivate.get("expense/categories", {
@@ -63,17 +100,25 @@ const Expenses = () => {
       controller.abort();
     };
   }, []);
-  console.log(categories);
+
   useEffect(() => {
-    getExpenses();
-  }, []);
+    if (selectedCategory !== "Category" && selectedCategory)
+      getExpensesByCategory();
+    else getExpenses();
+  }, [selectedCategory]);
+
+  useEffect(() => {
+    if (selectedPayment !== "Payment" && selectedPayment)
+      getExpensesByPayment();
+    else getExpenses();
+  }, [selectedPayment]);
 
   const rowColor = ["bg-white", "bg-gray-50"];
   return (
     !isLoading && (
       <SidebarLayout>
-        <div className="flex flex-row gap-x-4">
-          <section id="expense-table">
+        <div className="grid grid-cols-7 gap-x-4">
+          <section id="expense-table" className="col-span-5">
             <div className="flex justify-between">
               <div className="flex gap-x-4">
                 <h2 className="font-bold text-3xl">Expenses</h2>
@@ -86,7 +131,10 @@ const Expenses = () => {
               <div className="flex gap-x-4">
                 <select
                   id="categories"
-                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                  onChange={(e) => {
+                    setSelectedCategory(e.target.value);
+                  }}
                 >
                   <option selected>Category</option>
                   {categories.map((e) => (
@@ -95,7 +143,10 @@ const Expenses = () => {
                 </select>
                 <select
                   id="payment"
-                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                  onChange={(e) => {
+                    setSelectedPayment(e.target.value);
+                  }}
                 >
                   <option selected>Payment</option>
                   <option value="Bank">Bank</option>
@@ -222,14 +273,9 @@ const Expenses = () => {
               </table>
             )}
           </section>
-          <section className="">
+          <section className="col-span-2">
             {" "}
-            <div className="flex justify-between">
-              <div className="flex gap-x-4">
-                <h2 className="font-bold text-3xl">Categories</h2>
-                <CreateCategory />
-              </div>
-            </div>
+              <CategoryList categories={categories}/>
           </section>
         </div>
       </SidebarLayout>
